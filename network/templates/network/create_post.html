@@ -1,0 +1,21 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+<div>
+    <h1>{{ header }}</h1>
+    <hr>
+    <form id="post-form">
+        {% csrf_token %}
+        <textarea class="form-control" id="post-text" name="post-text" rows="10"
+            maxlength="500">{{ post.post }}</textarea>
+        <div id="sub-div">
+            <input id="submit-post" class="btn btn-primary mt-3" type="submit" value="{{ inputValue }}">
+            <div id="char-div">
+                <span id="char-count">0</span>
+                <span id="max-char">/ 500</span>
+            </div>
+            <input id="edit-post-id" hidden value="{{ post.id }}">
+        </div>
+    </form>
+</div>
+{% endblock %}

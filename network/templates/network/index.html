@@ -1,0 +1,65 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+
+<div>
+    <h1>{{ header }}</h1>
+    <hr>
+    {% for post in posts %}
+    <div class="border border-secondary-subtle mb-2 p-3 rounded">
+        <a id="user-profile" class="mb-3" href="/profile?user={{ post.username }}">
+            <h3> {{ post.username }} </h3>
+        </a>
+
+        {% if current_user == post.username %}
+        <a href="/edit_post?id={{ post.id }}&user={{ post.username }}"
+            class="edit-post-btn btn btn-outline-primary mb-2">Edit</a>
+        {% endif %}
+
+        <p id="user-post">{{ post.post }}</p>
+        <p>{{ post.timestamp }}</p>
+
+        {% if post.id in liked %}
+        <i id="like-icon{{ post.id }}" class="fa-solid fa-heart like-icon"></i>
+        <a class="like-post btn btn-outline-primary" id="like-post{{ post.id }}" data-id="{{ post.id }}"
+            data-text="unlike">
+            {{ post.likes }}
+        </a>
+        {% else %}
+        <i id="like-icon{{ post.id }}" class="fa-regular fa-heart like-icon"></i>
+        <a class="like-post btn btn-outline-primary" id="like-post{{ post.id }}" data-id="{{ post.id }}"
+            data-text="like">
+            {{ post.likes }}
+        </a>
+        {% endif %}
+        <!-- <p>comment</p> -->
+    </div>
+    {% endfor %}
+    <br>
+    {% if paginate %}
+    <nav aria-label="...">
+        <ul class="pagination">
+            <span class="page-link current">
+                Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+            </span>
+            {% if posts.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1">&laquo; first</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ posts.previous_page_number }}">previous</a>
+            </li>
+            {% endif %}
+
+            {% if posts.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ posts.next_page_number }}">next</a>
+            </li>
+            <a class="page-link" href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+
+{% endblock %}
